@@ -1,0 +1,10 @@
+{
+  "name": "validate-config",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Daniel Reszka",
+  "license": "MIT",
+  "dependencies": {
+    "superstruct": "^0.8.3"
+  }
+}
