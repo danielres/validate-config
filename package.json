@@ -1,9 +1,13 @@
 {
-  "name": "validate-config",
+  "name": "@danielres/validate-config",
   "version": "0.0.1",
-  "main": "index.js",
-  "author": "Daniel Reszka",
   "license": "MIT",
+  "main": "index.js",
+  "author": {
+    "name": "Daniel Reszka",
+    "url": "https://github.com/danielres"
+  },
+  "homepage": "https://github.com/danielres/validate-config",
   "dependencies": {
     "superstruct": "^0.8.3"
   }
