@@ -10,7 +10,7 @@
   "homepage": "https://github.com/danielres/validate-config",
   "scripts": {
     "test": "yarn test:once --extension ts -w",
-    "test:once": "mocha -r ts-node/register test/**/*.test.ts src/**/*.test.ts ",
+    "test:once": "mocha -r ts-node/register **/*.test.ts ",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" yarn test"
   },
   "dependencies": {
