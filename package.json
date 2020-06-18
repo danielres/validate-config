@@ -9,12 +9,23 @@
   },
   "homepage": "https://github.com/danielres/validate-config",
   "scripts": {
-    "prepare": "build-esm"
+    "test": "yarn test:once --extension ts -w",
+    "test:once": "mocha -r ts-node/register test/**/*.test.ts src/**/*.test.ts ",
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" yarn test"
   },
   "dependencies": {
     "superstruct": "^0.8.3"
   },
   "devDependencies": {
-    "build-esm": "^4.2.2"
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.13",
+    "@types/superstruct": "^0.8.2",
+    "chai": "^4.2.0",
+    "env-cmd": "^10.1.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   }
 }
