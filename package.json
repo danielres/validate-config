@@ -9,6 +9,7 @@
   },
   "homepage": "https://github.com/danielres/validate-config",
   "scripts": {
+    "check:types": "yarn tsc --noEmit",
     "test": "yarn test:once --extension ts -w",
     "test:once": "mocha -r ts-node/register **/*.test.ts ",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" yarn test"
