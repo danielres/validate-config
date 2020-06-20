@@ -2,7 +2,13 @@
   "name": "@danielres/validate-config",
   "version": "0.0.11",
   "license": "MIT",
+  "source": "./src/index.ts",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "author": {
     "name": "Daniel Reszka",
     "url": "https://github.com/danielres"
@@ -10,6 +16,8 @@
   "homepage": "https://github.com/danielres/validate-config",
   "scripts": {
     "check:types": "yarn tsc --noEmit",
+    "build": "bili",
+    "prepublishOnly": "run-s check:types test:once build",
     "test": "yarn test:once --extension ts -w",
     "test:once": "mocha -r ts-node/register **/*.test.ts ",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" yarn test"
