@@ -16,6 +16,8 @@
   "homepage": "https://github.com/danielres/validate-config",
   "scripts": {
     "check:types": "yarn tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prebuild": "yarn clean",
     "build": "bili",
     "prepublishOnly": "run-s check:types test:once build",
     "test": "yarn test:once --extension ts -w",
