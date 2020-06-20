@@ -1,71 +1,24 @@
-import { superstruct } from "superstruct";
-import isObject from "./utils/isObject";
+import { superstruct, Validator } from "superstruct";
+import getTypes from "./checks/getTypes";
+import getCustomCoercions from "./checks/getCustomCoercions";
+import getErrorMessages from "./checks/getErrorMessages";
+import getVars from "./config/getVars";
+import getRules from "./config/getRules";
+import ConfigValidationError from "./errors/ConfigValidationError";
+import { Checks, Config } from "./types";
 
-class ConfigValidationError extends Error {
-  errors: object[];
-
-  constructor(error, messages) {
-    super();
-    const count = error.failures.length;
-    this.message = `${count} errors.`;
-    this.name = "ConfigValidationError";
-    this.errors = error.failures.map((f) => ({
-      type: f.type,
-      path: f.path.join("."),
-      value: f.value,
-      message: messages[f.type],
-    }));
-  }
-}
-
-export default (checks) => (config) => {
-  const types = Object.entries(checks).reduce(
-    (acc, [k, v]) => ({ ...acc, [k]: v[0] }),
-    {}
-  );
-  const customCoercions = Object.entries(checks).reduce(
-    (acc, [k, v]) => ({ ...acc, [k]: v[1] }),
-    {}
-  );
-  const errorMessages = Object.entries(checks).reduce(
-    (acc, [k, v]) => ({ ...acc, [k]: v[2] }),
-    {}
-  );
-
+export default (checks: Checks) => (config: Config) => {
+  const types = getTypes(checks);
   const struct = superstruct({ types });
-
-  const coercionsMap = {
-    boolean: Boolean,
-    number: Number,
-    string: String,
-    ...customCoercions,
-  };
-
-  const coerce = (rule, value) => {
-    if (coercionsMap[rule]) return coercionsMap[rule](value);
-    throw new Error(`Coercion rule ${rule} missing.`);
-  };
-
-  const getVars = (obj) =>
-    Object.entries(obj).reduce(
-      (acc, [k, v]) => ({
-        ...acc,
-        [k]: isObject(v) ? getVars(v) : coerce(v[1], v[0]),
-      }),
-      {}
-    );
-
-  const getRules = (obj) =>
-    Object.entries(obj).reduce(
-      (acc, [k, v]) => ({ ...acc, [k]: isObject(v) ? getRules(v) : v[1] }),
-      {}
-    );
-
   const validator = struct(getRules(config));
 
+  const customCoercions = getCustomCoercions(checks);
+
   try {
-    return validator(getVars(config));
+    return validator(getVars(customCoercions, config));
   } catch (error) {
+    const errorMessages = getErrorMessages(checks);
+    console.log({ errorMessages });
     throw new ConfigValidationError(error, errorMessages);
   }
 };
